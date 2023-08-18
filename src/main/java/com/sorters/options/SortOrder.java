@@ -1,4 +1,4 @@
-package com.sorters;
+package com.sorters.options;
 
 public enum SortOrder {
     ASCENDING,

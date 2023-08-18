@@ -3,6 +3,8 @@ package com.sorters;
 import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.sorters.injection.SortersDIModule;
+import com.sorters.options.SortOrder;
+import com.sorters.quicksort.QuickSort;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Main {
         final var quicksort = injector.getInstance(new Key<QuickSort<Integer>>(){});
 
         final var numList = List.of(4,7,1,2,0,2,5,4,-1);
-        final var sorted = quicksort.sort(numList, SortOrder.ASCENDING);
+        final var sorted = quicksort.sort(numList, SortOrder.DESCENDING);
         sorted.forEach(System.out::println);
     }
 }

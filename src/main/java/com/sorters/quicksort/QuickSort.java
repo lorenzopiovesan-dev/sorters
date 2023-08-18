@@ -1,5 +1,6 @@
-package com.sorters;
+package com.sorters.quicksort;
 
+import com.sorters.options.SortOrder;
 import jakarta.inject.Inject;
 
 import java.util.ArrayList;
@@ -24,36 +25,33 @@ public class QuickSort<T extends Comparable<T>> {
             return Collections.emptyList();
         }
         final var list = new ArrayList<>(numList);
-        sort(list, 0, numList.size() - 1);
+        sort(list, 0, numList.size() - 1, sortOrder);
         return list;
     }
 
-    private void sort(List<T> list, int start, int end) {
+    private void sort(List<T> list, int start, int end, SortOrder sortOrder) {
         if (start < end) {
-            int p = partition(list, start, end);
-            sort(list, start, p);
-            sort(list, p + 1, end);
+            int p = partition(list, start, end, sortOrder);
+            sort(list, start, p, sortOrder);
+            sort(list, p + 1, end, sortOrder);
         }
     }
 
-    private int partition(List<T> list, int start, int end) {
+    private int partition(List<T> list, int start, int end, SortOrder sortOrder) {
 
         final var pivotIndex = this.randomGenerator.nextInt(end - start) + start;
         final var pivot = list.get(pivotIndex);
-
-        boolean swapStart;
-        boolean swapEnd;
 
         while (start <= end) {
             final var elementA = list.get(start);
             final var elementB = list.get(end);
 
-            swapStart = isGreaterOrEqual(elementA, pivot);
+            final var swapStart = deriveSwapStart(elementA, pivot, sortOrder);
+            final var swapEnd = deriveSwapEnd(elementB, pivot, sortOrder);
+
             if (!swapStart) {
                 start++;
             }
-
-            swapEnd = isLesserOrEqual(elementB, pivot);
             if (!swapEnd) {
                 end--;
             }
@@ -66,6 +64,20 @@ public class QuickSort<T extends Comparable<T>> {
             }
         }
         return start - 1;
+    }
+
+    private boolean deriveSwapStart(T element, T pivot, SortOrder sortOrder) {
+        return switch (sortOrder) {
+            case ASCENDING -> isGreaterOrEqual(element, pivot);
+            case DESCENDING -> isLesserOrEqual(element, pivot);
+        };
+    }
+
+    private boolean deriveSwapEnd(T element, T pivot, SortOrder sortOrder) {
+        return switch (sortOrder) {
+            case ASCENDING -> isLesserOrEqual(element, pivot);
+            case DESCENDING -> isGreaterOrEqual(element, pivot);
+        };
     }
 
     private boolean isGreaterOrEqual(T a, T b) {

@@ -1,5 +1,6 @@
-package com.sorters;
+package com.sorters.quicksort;
 
+import com.sorters.options.SortOrder;
 import com.sorters.injection.RandomGeneratorProvider;
 import org.junit.jupiter.api.*;
 
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
-public class QuickSortTestOrder {
+public class QuickSortTest {
 
     private static RandomGenerator randomGenerator;
 
@@ -85,9 +86,9 @@ public class QuickSortTestOrder {
         final var sorted = quicksort.sort(numList, SortOrder.DESCENDING);
 
         // Assert
-        int current = Integer.MIN_VALUE;
+        int current = Integer.MAX_VALUE;
         for (final var number : sorted) {
-            Assertions.assertTrue(number >= current);
+            Assertions.assertTrue(number <= current);
             current = number;
         }
     }
