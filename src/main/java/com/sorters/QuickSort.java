@@ -16,7 +16,7 @@ public class QuickSort<T extends Comparable<T>> {
         this.randomGenerator = randomGenerator;
     }
 
-    public List<T> sort(List<T> numList) {
+    public List<T> sort(List<T> numList, SortOrder sortOrder) {
         if (numList == null) {
             throw new RuntimeException("Null list not allowed");
         }

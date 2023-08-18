@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
-public class QuickSortTest {
+public class QuickSortTestOrder {
 
     private static RandomGenerator randomGenerator;
 
@@ -36,7 +36,7 @@ public class QuickSortTest {
         final var quicksort = new QuickSort<Integer>(randomGenerator);
 
         // Act
-        final var sorted = Assertions.assertThrows(RuntimeException.class, () -> quicksort.sort(null));
+        final var sorted = Assertions.assertThrows(RuntimeException.class, () -> quicksort.sort(null, SortOrder.ASCENDING));
 
         // Assert
         Assertions.assertEquals("Null list not allowed", sorted.getMessage());
@@ -50,21 +50,39 @@ public class QuickSortTest {
         final var quicksort = new QuickSort<Integer>(randomGenerator);
 
         // Act
-        final var sorted = quicksort.sort(numList);
+        final var sorted = quicksort.sort(numList, SortOrder.ASCENDING);
 
         // Assert
         Assertions.assertTrue(sorted.isEmpty());
     }
 
     @Test
-    @DisplayName("Provided a list of numbers, this is sorted from min to max")
+    @DisplayName("Provided a list of numbers, this is sorted from MIN to MAX")
     public void sort_test_3() {
         // Arrange
         final var numList = List.of(4,7,1,2,0,2,5,4,-1);
         final var quicksort = new QuickSort<Integer>(randomGenerator);
 
         // Act
-        final var sorted = quicksort.sort(numList);
+        final var sorted = quicksort.sort(numList, SortOrder.ASCENDING);
+
+        // Assert
+        int current = Integer.MIN_VALUE;
+        for (final var number : sorted) {
+            Assertions.assertTrue(number >= current);
+            current = number;
+        }
+    }
+
+    @Test
+    @DisplayName("Provided a list of numbers, this is sorted from MAX to MIN")
+    public void sort_test_4() {
+        // Arrange
+        final var numList = List.of(4,7,1,2,0,2,5,4,-1);
+        final var quicksort = new QuickSort<Integer>(randomGenerator);
+
+        // Act
+        final var sorted = quicksort.sort(numList, SortOrder.DESCENDING);
 
         // Assert
         int current = Integer.MIN_VALUE;
