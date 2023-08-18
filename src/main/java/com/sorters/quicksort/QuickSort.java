@@ -17,6 +17,14 @@ public class QuickSort<T extends Comparable<T>> {
         this.randomGenerator = randomGenerator;
     }
 
+    /**
+     * Given a generic unsorted list of elements T, this method will return a new, sorted, instance of such list
+     * @param unsortedList the original list to sort
+     * @param sortOrder the order in which the sorting must take place ({@link com.sorters.options.SortOrder#ASCENDING} or {@link com.sorters.options.SortOrder#DESCENDING})
+     * @return a new instance of the sorted list
+     *
+     * @see com.sorters.options.SortOrder
+     * */
     public List<T> sort(List<T> unsortedList, SortOrder sortOrder) {
         if (unsortedList == null) {
             throw new RuntimeException("Null list not allowed");
