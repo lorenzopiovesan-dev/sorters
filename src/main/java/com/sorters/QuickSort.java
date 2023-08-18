@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.random.RandomGenerator;
 
-public class QuickSort {
+public class QuickSort<T extends Comparable<T>> {
 
     private final RandomGenerator randomGenerator;
 
@@ -16,7 +16,7 @@ public class QuickSort {
         this.randomGenerator = randomGenerator;
     }
 
-    public List<Integer> sort(List<Integer> numList) {
+    public List<T> sort(List<T> numList) {
         if (numList == null) {
             throw new RuntimeException("Null list not allowed");
         }
@@ -28,7 +28,7 @@ public class QuickSort {
         return list;
     }
 
-    private void sort(List<Integer> list, int start, int end) {
+    private void sort(List<T> list, int start, int end) {
         if (start < end) {
             int p = partition(list, start, end);
             sort(list, start, p);
@@ -36,7 +36,7 @@ public class QuickSort {
         }
     }
 
-    private int partition(List<Integer> list, int start, int end) {
+    private int partition(List<T> list, int start, int end) {
 
         final var pivotIndex = this.randomGenerator.nextInt(end - start) + start;
         final var pivot = list.get(pivotIndex);
@@ -68,11 +68,11 @@ public class QuickSort {
         return start - 1;
     }
 
-    private boolean isGreaterOrEqual(Integer a, Integer b) {
+    private boolean isGreaterOrEqual(T a, T b) {
         return a.compareTo(b) >= 0;
     }
 
-    private boolean isLesserOrEqual(Integer a, Integer b) {
+    private boolean isLesserOrEqual(T a, T b) {
         return a.compareTo(b) <= 0;
     }
 

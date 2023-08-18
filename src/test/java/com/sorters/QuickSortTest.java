@@ -33,7 +33,7 @@ public class QuickSortTest {
     @DisplayName("Provided a null argument, an exception is thrown")
     public void sort_test_1() {
         // Arrange
-        final var quicksort = new QuickSort(randomGenerator);
+        final var quicksort = new QuickSort<Integer>(randomGenerator);
 
         // Act
         final var sorted = Assertions.assertThrows(RuntimeException.class, () -> quicksort.sort(null));
@@ -47,7 +47,7 @@ public class QuickSortTest {
     public void sort_test_2() {
         // Arrange
         final List<Integer> numList = List.of();
-        final var quicksort = new QuickSort(randomGenerator);
+        final var quicksort = new QuickSort<Integer>(randomGenerator);
 
         // Act
         final var sorted = quicksort.sort(numList);
@@ -61,7 +61,7 @@ public class QuickSortTest {
     public void sort_test_3() {
         // Arrange
         final var numList = List.of(4,7,1,2,0,2,5,4,-1);
-        final var quicksort = new QuickSort(randomGenerator);
+        final var quicksort = new QuickSort<Integer>(randomGenerator);
 
         // Act
         final var sorted = quicksort.sort(numList);
