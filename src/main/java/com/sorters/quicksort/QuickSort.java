@@ -17,16 +17,16 @@ public class QuickSort<T extends Comparable<T>> {
         this.randomGenerator = randomGenerator;
     }
 
-    public List<T> sort(List<T> numList, SortOrder sortOrder) {
-        if (numList == null) {
+    public List<T> sort(List<T> unsortedList, SortOrder sortOrder) {
+        if (unsortedList == null) {
             throw new RuntimeException("Null list not allowed");
         }
-        if (numList.isEmpty()) {
+        if (unsortedList.isEmpty()) {
             return Collections.emptyList();
         }
-        final var list = new ArrayList<>(numList);
-        sort(list, 0, numList.size() - 1, sortOrder);
-        return list;
+        final var sortedList = new ArrayList<>(unsortedList);
+        sort(sortedList, 0, sortedList.size() - 1, sortOrder);
+        return sortedList;
     }
 
     private void sort(List<T> list, int start, int end, SortOrder sortOrder) {
