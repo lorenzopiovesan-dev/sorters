@@ -1,18 +1,39 @@
 package com.sorters;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.sorters.injection.RandomGeneratorProvider;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class QuickSortTest {
+
+    private static RandomGenerator randomGenerator;
+
+    @BeforeAll
+    static void setUp() {
+        randomGenerator = new RandomGeneratorProvider().get();
+    }
+
+    @Test
+    @DisplayName("Once instantiated the Random Generator Provider a Random.class instance is returned")
+    public void instantiation_test() {
+        // Arrange
+        final var provider = new RandomGeneratorProvider();
+
+        // Act
+        final var random = provider.get();
+
+        // Assert
+        Assertions.assertInstanceOf(Random.class, random);
+    }
 
     @Test
     @DisplayName("Provided a null argument, an exception is thrown")
     public void sort_test_1() {
         // Arrange
-        final var quicksort = new QuickSort();
+        final var quicksort = new QuickSort(randomGenerator);
 
         // Act
         final var sorted = Assertions.assertThrows(RuntimeException.class, () -> quicksort.sort(null));
@@ -26,7 +47,7 @@ public class QuickSortTest {
     public void sort_test_2() {
         // Arrange
         final List<Integer> numList = List.of();
-        final var quicksort = new QuickSort();
+        final var quicksort = new QuickSort(randomGenerator);
 
         // Act
         final var sorted = quicksort.sort(numList);
@@ -40,7 +61,7 @@ public class QuickSortTest {
     public void sort_test_3() {
         // Arrange
         final var numList = List.of(4,7,1,2,0,2,5,4,-1);
-        final var quicksort = new QuickSort();
+        final var quicksort = new QuickSort(randomGenerator);
 
         // Act
         final var sorted = quicksort.sort(numList);

@@ -12,15 +12,22 @@
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <guice.version>7.0.0</guice.version>
+        <junit.version>5.10.0</junit.version>
     </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.0</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
 </project>

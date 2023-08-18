@@ -1,11 +1,20 @@
 package com.sorters;
 
+import jakarta.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class QuickSort {
+
+    private final RandomGenerator randomGenerator;
+
+    @Inject
+    public QuickSort(RandomGenerator randomGenerator) {
+        this.randomGenerator = randomGenerator;
+    }
 
     public List<Integer> sort(List<Integer> numList) {
         if (numList == null) {
@@ -29,7 +38,7 @@ public class QuickSort {
 
     private int partition(List<Integer> list, int start, int end) {
 
-        final var pivotIndex = new Random().nextInt(end - start) + start;
+        final var pivotIndex = this.randomGenerator.nextInt(end - start) + start;
         final var pivot = list.get(pivotIndex);
 
         boolean swapStart;
@@ -49,7 +58,7 @@ public class QuickSort {
                 end--;
             }
 
-            if (isSwappable(swapStart, swapStart)) {
+            if (isSwappable(swapStart, swapEnd)) {
                 list.set(start, elementB);
                 list.set(end, elementA);
                 start++;
