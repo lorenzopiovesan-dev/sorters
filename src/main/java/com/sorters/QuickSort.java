@@ -1,6 +1,9 @@
 package com.sorters;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class QuickSort {
 
@@ -29,30 +32,42 @@ public class QuickSort {
         final var pivotIndex = new Random().nextInt(end - start) + start;
         final var pivot = list.get(pivotIndex);
 
-        boolean s1;
-        boolean s2;
+        boolean swapStart;
+        boolean swapEnd;
 
         while (start <= end) {
-            s1 = false;
-            s2 = false;
-            if (list.get(start).compareTo(pivot) >= 0) {
-                s1 = true;
-            } else {
+            final var elementA = list.get(start);
+            final var elementB = list.get(end);
+
+            swapStart = isGreaterOrEqual(elementA, pivot);
+            if (!swapStart) {
                 start++;
             }
-            if (list.get(end).compareTo(pivot) <= 0) {
-                s2 = true;
-            } else {
+
+            swapEnd = isLesserOrEqual(elementB, pivot);
+            if (!swapEnd) {
                 end--;
             }
-            if (s1 && s2) {
-                final var temp = list.get(start);
-                list.set(start, list.get(end));
-                list.set(end, temp);
+
+            if (isSwappable(swapStart, swapStart)) {
+                list.set(start, elementB);
+                list.set(end, elementA);
                 start++;
                 end--;
             }
         }
         return start - 1;
+    }
+
+    private boolean isGreaterOrEqual(Integer a, Integer b) {
+        return a.compareTo(b) >= 0;
+    }
+
+    private boolean isLesserOrEqual(Integer a, Integer b) {
+        return a.compareTo(b) <= 0;
+    }
+
+    private boolean isSwappable(boolean s1, boolean s2) {
+        return s1 && s2;
     }
 }
