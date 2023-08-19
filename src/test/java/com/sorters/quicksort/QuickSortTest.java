@@ -6,15 +6,15 @@ import org.junit.jupiter.api.*;
 
 import java.util.List;
 import java.util.Random;
-import java.util.random.RandomGenerator;
 
 public class QuickSortTest {
 
-    private static RandomGenerator randomGenerator;
+    private static Partitioner<Integer> partitioner;
 
     @BeforeAll
     static void setUp() {
-        randomGenerator = new RandomGeneratorProvider().get();
+        final var randomGenerator = new RandomGeneratorProvider().get();
+        partitioner = new HoarePartitioner<>(randomGenerator) ;
     }
 
     @Test
@@ -34,7 +34,7 @@ public class QuickSortTest {
     @DisplayName("Provided a null argument, an exception is thrown")
     public void sort_test_1() {
         // Arrange
-        final var quicksort = new QuickSort<Integer>(randomGenerator);
+        final var quicksort = new QuickSort<>(partitioner);
 
         // Act
         final var sorted = Assertions.assertThrows(RuntimeException.class, () -> quicksort.sort(null, SortOrder.ASCENDING));
@@ -48,7 +48,7 @@ public class QuickSortTest {
     public void sort_test_2() {
         // Arrange
         final List<Integer> numList = List.of();
-        final var quicksort = new QuickSort<Integer>(randomGenerator);
+        final var quicksort = new QuickSort<>(partitioner);
 
         // Act
         final var sorted = quicksort.sort(numList, SortOrder.ASCENDING);
@@ -62,7 +62,7 @@ public class QuickSortTest {
     public void sort_test_3() {
         // Arrange
         final var numList = List.of(4,7,1,2,0,2,5,4,-1);
-        final var quicksort = new QuickSort<Integer>(randomGenerator);
+        final var quicksort = new QuickSort<>(partitioner);
 
         // Act
         final var sorted = quicksort.sort(numList, SortOrder.ASCENDING);
@@ -80,7 +80,7 @@ public class QuickSortTest {
     public void sort_test_4() {
         // Arrange
         final var numList = List.of(4,7,1,2,0,2,5,4,-1);
-        final var quicksort = new QuickSort<Integer>(randomGenerator);
+        final var quicksort = new QuickSort<>(partitioner);
 
         // Act
         final var sorted = quicksort.sort(numList, SortOrder.DESCENDING);
