@@ -11,6 +11,8 @@ public class SortersDIModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(RandomGenerator.class).toProvider(RandomGeneratorProvider.class);
-        bind(new TypeLiteral<Partitioner<Integer>>(){}).to(new TypeLiteral<HoarePartitioner<Integer>>(){});
+        bind(new TypeLiteral<Partitioner<Integer>>() {
+        }).to(new TypeLiteral<HoarePartitioner<Integer>>() {
+        });
     }
 }

@@ -1,8 +1,11 @@
 package com.sorters.quicksort;
 
-import com.sorters.options.SortOrder;
 import com.sorters.injection.RandomGeneratorProvider;
-import org.junit.jupiter.api.*;
+import com.sorters.options.SortOrder;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Random;
@@ -14,7 +17,7 @@ public class QuickSortTest {
     @BeforeAll
     static void setUp() {
         final var randomGenerator = new RandomGeneratorProvider().get();
-        partitioner = new HoarePartitioner<>(randomGenerator) ;
+        partitioner = new HoarePartitioner<>(randomGenerator);
     }
 
     @Test
@@ -61,7 +64,7 @@ public class QuickSortTest {
     @DisplayName("Provided a list of numbers, this is sorted from MIN to MAX")
     public void sort_test_3() {
         // Arrange
-        final var numList = List.of(4,7,1,2,0,2,5,4,-1);
+        final var numList = List.of(4, 7, 1, 2, 0, 2, 5, 4, -1);
         final var quicksort = new QuickSort<>(partitioner);
 
         // Act
@@ -79,7 +82,7 @@ public class QuickSortTest {
     @DisplayName("Provided a list of numbers, this is sorted from MAX to MIN")
     public void sort_test_4() {
         // Arrange
-        final var numList = List.of(4,7,1,2,0,2,5,4,-1);
+        final var numList = List.of(4, 7, 1, 2, 0, 2, 5, 4, -1);
         final var quicksort = new QuickSort<>(partitioner);
 
         // Act
