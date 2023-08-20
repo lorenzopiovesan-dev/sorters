@@ -5,7 +5,6 @@ import javafx.concurrent.Task;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.util.Random;
 import java.util.random.RandomGenerator;
 
 public class QuickSortTask extends Task<PointList> {
@@ -13,12 +12,14 @@ public class QuickSortTask extends Task<PointList> {
     private final PointList points;
     private final GraphicsContext graphicsContext;
 
+    private final SortOrder sortOrder;
     private final RandomGenerator randomGenerator;
 
-    public QuickSortTask(PointList points, GraphicsContext graphicsContext){
+    public QuickSortTask(PointList points, GraphicsContext graphicsContext, RandomGenerator randomGenerator, SortOrder sortOrder) {
         this.points = points;
         this.graphicsContext = graphicsContext;
-        this.randomGenerator = new Random();
+        this.sortOrder = sortOrder;
+        this.randomGenerator = randomGenerator;
     }
 
     @Override
@@ -29,13 +30,13 @@ public class QuickSortTask extends Task<PointList> {
 
     private void quickSort(PointList list, int start, int end) {
         if (start < end) {
-            int p = getPartition(list, start, end, SortOrder.DESCENDING);
+            int p = getPartition(list, start, end);
             quickSort(list, start, p);
-            quickSort(list, p+1, end);
+            quickSort(list, p + 1, end);
         }
     }
 
-    public int getPartition(PointList list, int start, int end, SortOrder sortOrder) {
+    public int getPartition(PointList list, int start, int end) {
 
         final var pivotIndex = this.randomGenerator.nextInt(end - start) + start;
         final var pivot = list.get(pivotIndex);
@@ -44,8 +45,8 @@ public class QuickSortTask extends Task<PointList> {
             final var elementA = list.get(start);
             final var elementB = list.get(end);
 
-            final var swapStart = deriveSwapStart(elementA, pivot, sortOrder);
-            final var swapEnd = deriveSwapEnd(elementB, pivot, sortOrder);
+            final var swapStart = deriveSwapStart(elementA, pivot, this.sortOrder);
+            final var swapEnd = deriveSwapEnd(elementB, pivot, this.sortOrder);
 
             if (!swapStart) {
                 start++;
@@ -82,7 +83,7 @@ public class QuickSortTask extends Task<PointList> {
             Thread.sleep(10);
             graphicsContext.clearRect(elementA.x(), elementA.y(), 5.0, 5.0);
             graphicsContext.clearRect(elementB.x(), elementB.y(), 5.0, 5.0);
-        } catch (InterruptedException e){
+        } catch (InterruptedException e) {
             System.out.println("sleeping");
         }
     }
