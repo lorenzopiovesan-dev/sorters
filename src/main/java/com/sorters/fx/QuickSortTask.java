@@ -87,8 +87,8 @@ public class QuickSortTask extends Task<PointList> {
         }
     }
 
-    private void highlightPoints(Point elementA, Point elementB, Color red, double radius) {
-        graphicsContext.setFill(red);
+    private void highlightPoints(Point elementA, Point elementB, Color color, double radius) {
+        graphicsContext.setFill(color);
         graphicsContext.fillOval(elementA.x(), elementA.y(), radius, radius);
         graphicsContext.fillOval(elementB.x(), elementB.y(), radius, radius);
     }
