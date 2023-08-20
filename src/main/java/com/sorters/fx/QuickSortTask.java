@@ -24,15 +24,6 @@ public class QuickSortTask extends Task<PointList> {
     @Override
     protected PointList call() {
         quickSort(this.points, 0, this.points.size() - 1);
-        int current = Integer.MAX_VALUE;
-        for (Point p : this.points) {
-            if (p.y() <= current) {
-                current = p.y();
-                System.out.print(p.y() + " - ");
-            } else {
-                throw new RuntimeException("wrrooooooong");
-            }
-        }
         return this.points;
     }
 
