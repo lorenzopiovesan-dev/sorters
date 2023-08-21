@@ -7,17 +7,24 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class QuickSortTest {
 
     private static Partitioner<Integer> partitioner;
+    private static PartitionerHandler<Integer> partitionerHandler;
+    private static PartitionerConfig<Integer> partitionerConfig;
+
 
     @BeforeAll
     static void setUp() {
         final var randomGenerator = new RandomGeneratorProvider().get();
         partitioner = new HoarePartitioner<>(randomGenerator);
+        partitionerHandler = new HoarePartitionerHandler<>(null, null, Integer::compareTo);
+        partitionerConfig = new HoarePartitionerConfig<>(SortOrder.ASCENDING, partitionerHandler);
+
     }
 
     @Test
@@ -40,7 +47,7 @@ public class QuickSortTest {
         final var quicksort = new QuickSort<>(partitioner);
 
         // Act
-        final var sorted = Assertions.assertThrows(RuntimeException.class, () -> quicksort.sort(null, SortOrder.ASCENDING));
+        final var sorted = Assertions.assertThrows(RuntimeException.class, () -> quicksort.sort(null, partitionerConfig));
 
         // Assert
         Assertions.assertEquals("Null list not allowed", sorted.getMessage());
@@ -54,25 +61,25 @@ public class QuickSortTest {
         final var quicksort = new QuickSort<>(partitioner);
 
         // Act
-        final var sorted = quicksort.sort(numList, SortOrder.ASCENDING);
+        quicksort.sort(numList, partitionerConfig);
 
         // Assert
-        Assertions.assertTrue(sorted.isEmpty());
+        Assertions.assertTrue(numList.isEmpty());
     }
 
     @Test
     @DisplayName("Provided a list of numbers, this is sorted from MIN to MAX")
     public void sort_test_3() {
         // Arrange
-        final var numList = List.of(4, 7, 1, 2, 0, 2, 5, 4, -1);
+        final var numList = new ArrayList<>(List.of(4, 7, 1, 2, 0, 2, 5, 4, -1));
         final var quicksort = new QuickSort<>(partitioner);
 
         // Act
-        final var sorted = quicksort.sort(numList, SortOrder.ASCENDING);
+        quicksort.sort(numList, partitionerConfig);
 
         // Assert
         int current = Integer.MIN_VALUE;
-        for (final var number : sorted) {
+        for (final var number : numList) {
             Assertions.assertTrue(number >= current);
             current = number;
         }
@@ -82,15 +89,16 @@ public class QuickSortTest {
     @DisplayName("Provided a list of numbers, this is sorted from MAX to MIN")
     public void sort_test_4() {
         // Arrange
-        final var numList = List.of(4, 7, 1, 2, 0, 2, 5, 4, -1);
+        final var numList = new ArrayList<>(List.of(4, 7, 1, 2, 0, 2, 5, 4, -1));
         final var quicksort = new QuickSort<>(partitioner);
+        final var descendingConfig = new HoarePartitionerConfig<>(SortOrder.DESCENDING, partitionerHandler);
 
         // Act
-        final var sorted = quicksort.sort(numList, SortOrder.DESCENDING);
+        quicksort.sort(numList, descendingConfig);
 
         // Assert
         int current = Integer.MAX_VALUE;
-        for (final var number : sorted) {
+        for (final var number : numList) {
             Assertions.assertTrue(number <= current);
             current = number;
         }
