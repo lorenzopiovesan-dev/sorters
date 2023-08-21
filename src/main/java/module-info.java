@@ -4,5 +4,6 @@ module sorters {
     requires javafx.controls;
     requires javafx.fxml;
     exports com.sorters.fx;
+    exports com.sorters.options;
     opens com.sorters.fx to javafx.fxml;
 }

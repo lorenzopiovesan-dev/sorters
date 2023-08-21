@@ -1,8 +1,8 @@
 package com.sorters.quicksort;
 
+import com.sorters.quicksort.config.Partitioner;
 import com.sorters.quicksort.config.PartitionerConfig;
 import com.sorters.quicksort.config.Sorter;
-import com.sorters.quicksort.config.Partitioner;
 import jakarta.inject.Inject;
 
 import java.util.List;

@@ -1,7 +1,5 @@
 package com.sorters.quicksort.config;
 
-import com.sorters.quicksort.config.PartitionerConfig;
-
 import java.util.List;
 
 public interface Partitioner<T> {

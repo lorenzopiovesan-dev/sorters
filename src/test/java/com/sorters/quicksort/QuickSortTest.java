@@ -2,10 +2,10 @@ package com.sorters.quicksort;
 
 import com.sorters.injection.RandomGeneratorProvider;
 import com.sorters.options.SortOrder;
+import com.sorters.quicksort.config.Partitioner;
 import com.sorters.quicksort.config.PartitionerConfig;
 import com.sorters.quicksort.config.PartitionerHandler;
 import com.sorters.quicksort.partitioners.HoarePartitioner;
-import com.sorters.quicksort.config.Partitioner;
 import com.sorters.quicksort.partitioners.config.HoarePartitionerConfig;
 import com.sorters.quicksort.partitioners.config.HoarePartitionerHandler;
 import org.junit.jupiter.api.Assertions;

@@ -1,10 +1,18 @@
 package com.sorters.fx;
 
 import com.sorters.options.SortOrder;
+import com.sorters.quicksort.QuickSort;
+import com.sorters.quicksort.config.Action;
+import com.sorters.quicksort.config.Sorter;
+import com.sorters.quicksort.partitioners.HoarePartitioner;
+import com.sorters.quicksort.partitioners.config.HoarePartitionerConfig;
+import com.sorters.quicksort.partitioners.config.HoarePartitionerHandler;
 import javafx.concurrent.Task;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.random.RandomGenerator;
 
 public class QuickSortTask extends Task<PointList> {
@@ -13,68 +21,40 @@ public class QuickSortTask extends Task<PointList> {
     private final GraphicsContext graphicsContext;
 
     private final SortOrder sortOrder;
-    private final RandomGenerator randomGenerator;
+
+    private final Sorter<Point> sorter;
 
     public QuickSortTask(PointList points, GraphicsContext graphicsContext, RandomGenerator randomGenerator, SortOrder sortOrder) {
         this.points = points;
         this.graphicsContext = graphicsContext;
         this.sortOrder = sortOrder;
-        this.randomGenerator = randomGenerator;
+        final var partitioner = new HoarePartitioner<Point>(randomGenerator);
+        this.sorter = new QuickSort<>(partitioner);
     }
 
     @Override
     protected PointList call() {
-        quickSort(this.points, 0, this.points.size() - 1);
+
+        final Action<Point> before = (oldElementA, oldElementB, list, start, end) -> highlightPoints(oldElementA, oldElementB, Color.RED, 5.0);
+
+        final Action<Point> after = this::transitionToNewPoints;
+        final var comparator = new Comparator<Point>() {
+            @Override
+            public int compare(Point o1, Point o2) {
+                return Integer.compare(o1.y(), o2.y());
+            }
+        };
+        final var partitionerHandler = new HoarePartitionerHandler<>(before, after, comparator);
+        final var config = new HoarePartitionerConfig<>(this.sortOrder, partitionerHandler);
+
+        this.sorter.sort(this.points, config);
         return this.points;
     }
 
-    private void quickSort(PointList list, int start, int end) {
-        if (start < end) {
-            int p = getPartition(list, start, end);
-            quickSort(list, start, p);
-            quickSort(list, p + 1, end);
-        }
-    }
-
-    public int getPartition(PointList list, int start, int end) {
-
-        final var pivotIndex = this.randomGenerator.nextInt(end - start) + start;
-        final var pivot = list.get(pivotIndex);
-
-        while (start <= end) {
-            final var elementA = list.get(start);
-            final var elementB = list.get(end);
-
-            final var swapStart = deriveSwapStart(elementA, pivot, this.sortOrder);
-            final var swapEnd = deriveSwapEnd(elementB, pivot, this.sortOrder);
-
-            if (!swapStart) {
-                start++;
-            }
-            if (!swapEnd) {
-                end--;
-            }
-
-            if (isSwappable(swapStart, swapEnd)) {
-
-                highlightPoints(elementA, elementB, Color.RED, 5.0);
-
-                list.set(start, elementB);
-                list.set(end, elementA);
-
-                transitionToNewPoints(list, start, end, elementA, elementB);
-
-                start++;
-                end--;
-            }
-        }
-        return start - 1;
-    }
-
-    private void transitionToNewPoints(PointList list, int start, int end, Point elementA, Point elementB) {
+    private void transitionToNewPoints(Point oldElementA, Point oldElementB, List<Point> list, int start, int end) {
+        clearHighlightedPoints(oldElementA, oldElementB);
         final var newElementA = list.get(start);
         final var newElementB = list.get(end);
-        clearHighlightedPoints(elementA, elementB);
         highlightPoints(newElementA, newElementB, Color.BLUE, 2.0);
     }
 
@@ -94,29 +74,4 @@ public class QuickSortTask extends Task<PointList> {
         graphicsContext.fillOval(elementB.x(), elementB.y(), radius, radius);
     }
 
-    private boolean deriveSwapStart(Point element, Point pivot, SortOrder sortOrder) {
-        return switch (sortOrder) {
-            case ASCENDING -> isGreaterOrEqual(element, pivot);
-            case DESCENDING -> isLesserOrEqual(element, pivot);
-        };
-    }
-
-    private boolean deriveSwapEnd(Point element, Point pivot, SortOrder sortOrder) {
-        return switch (sortOrder) {
-            case ASCENDING -> isLesserOrEqual(element, pivot);
-            case DESCENDING -> isGreaterOrEqual(element, pivot);
-        };
-    }
-
-    private boolean isGreaterOrEqual(Point a, Point b) {
-        return a.compareTo(b) >= 0;
-    }
-
-    private boolean isLesserOrEqual(Point a, Point b) {
-        return a.compareTo(b) <= 0;
-    }
-
-    private boolean isSwappable(boolean s1, boolean s2) {
-        return s1 && s2;
-    }
 }
