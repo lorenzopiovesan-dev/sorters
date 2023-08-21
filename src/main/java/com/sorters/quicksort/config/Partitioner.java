@@ -1,8 +1,7 @@
-package com.sorters.quicksort;
+package com.sorters.quicksort.config;
 
-import com.sorters.options.SortOrder;
+import com.sorters.quicksort.config.PartitionerConfig;
 
-import java.util.Comparator;
 import java.util.List;
 
 public interface Partitioner<T> {

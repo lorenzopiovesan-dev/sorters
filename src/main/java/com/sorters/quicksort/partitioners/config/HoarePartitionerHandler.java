@@ -1,8 +1,11 @@
-package com.sorters.quicksort;
+package com.sorters.quicksort.partitioners.config;
+
+import com.sorters.quicksort.config.Action;
+import com.sorters.quicksort.config.PartitionerHandler;
 
 import java.util.Comparator;
 
-public class HoarePartitionerHandler<T> implements PartitionerHandler<T>{
+public class HoarePartitionerHandler<T> implements PartitionerHandler<T> {
 
     private final Action<T> beforeSwapAction;
     private final Action<T> afterSwapAction;

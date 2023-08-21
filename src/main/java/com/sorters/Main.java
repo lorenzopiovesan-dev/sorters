@@ -4,8 +4,8 @@ import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.sorters.injection.SortersDIModule;
 import com.sorters.options.SortOrder;
-import com.sorters.quicksort.HoarePartitionerConfig;
-import com.sorters.quicksort.HoarePartitionerHandler;
+import com.sorters.quicksort.partitioners.config.HoarePartitionerConfig;
+import com.sorters.quicksort.partitioners.config.HoarePartitionerHandler;
 import com.sorters.quicksort.QuickSort;
 
 import java.util.ArrayList;

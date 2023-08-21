@@ -1,6 +1,9 @@
-package com.sorters.quicksort;
+package com.sorters.quicksort.partitioners.config;
 
 import com.sorters.options.SortOrder;
+import com.sorters.quicksort.config.Action;
+import com.sorters.quicksort.config.PartitionerConfig;
+import com.sorters.quicksort.config.PartitionerHandler;
 
 import java.util.Comparator;
 

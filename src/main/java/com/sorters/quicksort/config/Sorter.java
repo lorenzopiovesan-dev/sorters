@@ -1,8 +1,5 @@
-package com.sorters.quicksort;
+package com.sorters.quicksort.config;
 
-import com.sorters.options.SortOrder;
-
-import java.util.Comparator;
 import java.util.List;
 
 public interface Sorter<T extends Comparable<T>> {

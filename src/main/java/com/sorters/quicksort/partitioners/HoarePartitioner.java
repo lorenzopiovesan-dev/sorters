@@ -1,6 +1,9 @@
-package com.sorters.quicksort;
+package com.sorters.quicksort.partitioners;
 
 import com.sorters.options.SortOrder;
+import com.sorters.quicksort.config.Action;
+import com.sorters.quicksort.config.Partitioner;
+import com.sorters.quicksort.config.PartitionerConfig;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 

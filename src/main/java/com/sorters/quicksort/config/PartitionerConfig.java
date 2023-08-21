@@ -1,4 +1,4 @@
-package com.sorters.quicksort;
+package com.sorters.quicksort.config;
 
 import com.sorters.options.SortOrder;
 
